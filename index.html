@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Axio 分享 · 反馈收集</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --card: #131320;
+    --accent: #4f8fff;
+    --accent2: #ff6b9d;
+    --text: #e8e8f0;
+    --muted: #8888a0;
+    --green: #4cdf80;
+    --border: #1e1e32;
+    --input-bg: #0d0d1a;
+  }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 60px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 480px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-top: 20px;
+  }
+
+  .header .icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .header .subtitle {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* Form Card */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    margin-bottom: 16px;
+  }
+
+  .form-card .q-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .form-card label {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  /* Star Rating */
+  .star-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .star-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .star-btn:hover, .star-btn:active { border-color: var(--yellow); }
+  .star-btn.selected { border-color: var(--yellow); background: rgba(255,213,79,0.15); color: var(--yellow); transform: scale(1.05); }
+
+  .star-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+
+  /* Text inputs */
+  textarea, input[type="text"] {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 12px 14px;
+    resize: vertical;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  textarea:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  textarea { min-height: 80px; }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 8px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .submit-btn:active { transform: scale(0.97); opacity: 0.9; }
+  .submit-btn:disabled { opacity: 0.5; pointer-events: none; }
+
+  /* Success State */
+  .success-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .success-overlay.show { display: flex; }
+
+  .success-overlay .big-emoji { font-size: 64px; margin-bottom: 16px; }
+  .success-overlay h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .success-overlay p { color: var(--muted); font-size: 0.95rem; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    margin-top: 24px;
+    opacity: 0.6;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--red);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="icon">🧠</div>
+    <h1>Axio 分享 · 课后反馈</h1>
+    <div class="subtitle">你的想法，我来接住</div>
+  </div>
+
+  <form id="feedbackForm">
+    <!-- Q1 -->
+    <div class="form-card">
+      <div class="q-num">1</div>
+      <label>这节课你的收获大吗？</label>
+      <div class="star-row" id="starRow">
+        <button type="button" class="star-btn" data-rating="1">⭐</button>
+        <button type="button" class="star-btn" data-rating="2">⭐</button>
+        <button type="button" class="star-btn" data-rating="3">⭐</button>
+        <button type="button" class="star-btn" data-rating="4">⭐</button>
+        <button type="button" class="star-btn" data-rating="5">⭐</button>
+      </div>
+      <div class="star-label-row">
+        <span>收获很小</span><span>收获巨大</span>
+      </div>
+      <textarea name="q1_detail" placeholder="你吸收了什么？具体说说～"></textarea>
+    </div>
+
+    <!-- Q2 -->
+    <div class="form-card">
+      <div class="q-num">2</div>
+      <label>你有什么好想法？</label>
+      <textarea name="q2" placeholder="任何想法都欢迎——AI工作流、研究方向、合作点子……想到什么说什么～"></textarea>
+    </div>
+
+    <!-- Q3 -->
+    <div class="form-card">
+      <div class="q-num">3</div>
+      <label>您有什么能力，能提供什么资源？</label>
+      <textarea name="q3" placeholder="比如：会写代码、有数据资源、认识某领域的人、擅长做图……"></textarea>
+    </div>
+
+    <!-- Q4 -->
+    <div class="form-card">
+      <div class="q-num">4</div>
+      <label>联系方式</label>
+      <input type="text" name="q4" placeholder="微信/手机/邮箱，方便后续联系～">
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">提交反馈 🚀</button>
+  </form>
+
+  <div class="footer">佟子烨 · 天大经管学部 · Axio</div>
+</div>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="big-emoji">🎉</div>
+  <h2>收到！感谢反馈</h2>
+  <p>你的想法我已经收到啦～<br>保持联系，一起搞事情</p>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // === Star Rating ===
+  let rating = 0;
+  const starButtons = document.querySelectorAll('.star-btn');
+
+  starButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      rating = parseInt(btn.dataset.rating);
+      starButtons.forEach((b, i) => {
+        b.classList.toggle('selected', i < rating);
+      });
+    });
+  });
+
+  // === Form Submit → Telegram ===
+  const BOT_TOKEN = '8688695032:AAHKKdl5AcYdPIhPLH9SLOtHmMjlkmzsSUk';
+  const CHAT_ID = '7665097177';
+  const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+  document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '提交中……';
+
+    const stars = '⭐'.repeat(rating || 0) + ('  ').repeat(5 - (rating || 0));
+    const msg = [
+      `📋 <b>新的 Axio 分享反馈</b>`,
+      ``,
+      `<b>⭐ 收获评分：${rating || '未评'}/5</b>`,
+      `📝 吸收了什么：${document.querySelector('[name="q1_detail"]').value.trim() || '（未填）'}`,
+      ``,
+      `💡 <b>好想法：</b>`,
+      `${document.querySelector('[name="q2"]').value.trim() || '（未填）'}`,
+      ``,
+      `🔧 <b>能力/资源：</b>`,
+      `${document.querySelector('[name="q3"]').value.trim() || '（未填）'}`,
+      ``,
+      `📞 <b>联系方式：</b>`,
+      `${document.querySelector('[name="q4"]').value.trim() || '（未填）'}`,
+      ``,
+      `🕐 ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}`
+    ].join('\n');
+
+    try {
+      const resp = await fetch(TG_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: msg,
+          parse_mode: 'HTML'
+        })
+      });
+
+      if (!resp.ok) throw new Error('Telegram API error');
+
+      document.getElementById('successOverlay').classList.add('show');
+    } catch (err) {
+      showToast('提交失败，请重试');
+      btn.disabled = false;
+      btn.textContent = '提交反馈 🚀';
+    }
+  });
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+</script>
+
+</body>
+</html>
