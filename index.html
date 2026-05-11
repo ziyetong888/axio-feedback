@@ -348,9 +348,9 @@
 
       document.getElementById('successOverlay').classList.add('show');
     } catch (err) {
-      showToast('提交失败，请重试');
       btn.disabled = false;
-      btn.textContent = '提交反馈 🚀';
+      btn.textContent = '重试提交 🚀';
+      showToast('网络问题：请开启VPN后重试，或截图此页发给我 📸');
     }
   });
 
